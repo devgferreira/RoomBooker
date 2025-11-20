@@ -1,6 +1,6 @@
-namespace RoomBooker.Domain.Entity.Reservation
+namespace RoomBooker.Domain.Entity.Booking
 {
-    public class ReservationInfo
+    public class BookingInfo
     {
         public int Id { get; set; }
         public int UserId { get; set; }
@@ -8,6 +8,6 @@ namespace RoomBooker.Domain.Entity.Reservation
         public DateTime InitialDate { get; set; }
         public DateTime FinalDate { get; set; }
         public DateTime Day { get; set; }
-    
+
     }
 }
