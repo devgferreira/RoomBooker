@@ -1,0 +1,6 @@
+@RoomBooker.API_HostAddress = http://localhost:5201
+
+GET {{RoomBooker.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
