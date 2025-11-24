@@ -29,8 +29,25 @@ namespace RoomBooker.Infra.Data.Interface.Room
 
         public async Task<List<RoomInfo>> SelectRoom(RoomRequest request)
         {
-            var sql = "SELECT Id, Name, Capacity FROM Room WHERE Name LIKE @Name AND Capacity = @Capacity;";
-            var rooms = await _context.Connection.QueryAsync<RoomInfo>(sql, new { Name = $"%{request.Name}%", Capacity = request.Capacity });
+            var sql = "SELECT Id, Name, Capacity FROM Room WHERE 1 = 1";
+            if (request.Id != null)
+            {
+                sql += " AND Id = @Id";
+            }
+            if (request.Name != null)
+            {
+                sql += " AND Name LIKE @Name";
+            }
+            if (request.Capacity != null)
+            {
+                sql += " AND Capacity = @Capacity";
+            }
+            var rooms = await _context.Connection.QueryAsync<RoomInfo>(sql, new
+            {
+                Name = $"%{request.Name}%",
+                Capacity = request.Capacity,
+                Id = request.Id
+            });
             return rooms.ToList();
         }
         public async Task DeleteRoom(int id)
