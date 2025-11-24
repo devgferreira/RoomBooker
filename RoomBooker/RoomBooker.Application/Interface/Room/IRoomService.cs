@@ -4,9 +4,9 @@ namespace RoomBooker.Application.Interface.Room
 {
     public interface IRoomService
     {
-        Task CreateAsync(RoomCreateOrUpdateDTO room);
-        Task UpdateAsync(int id, RoomCreateOrUpdateDTO room);
-        Task DeleteAsync(int id);
-        Task<List<RoomDTO>> SelecetRoom(RoomRequest request);
+        Task CreateRoomAsync(RoomCreateOrUpdateDTO room);
+        Task UpdateRoomAsync(int id, RoomCreateOrUpdateDTO room);
+        Task DeleteRoomAsync(int id);
+        Task<List<RoomDTO>> SelectRoomAsync(RoomRequest request);
     }
 }
