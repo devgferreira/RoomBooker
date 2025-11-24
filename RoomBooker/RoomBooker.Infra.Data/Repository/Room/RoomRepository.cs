@@ -14,7 +14,6 @@ namespace RoomBooker.Infra.Data.Interface.Room
             _context = context;
         }
 
-
         public async Task<int> CreateRoom(RoomInfo room)
         {
             var sql = "INSERT INTO Room (Name, Capacity) VALUES (@Name, @Capacity) RETURNING Id;";
@@ -22,10 +21,10 @@ namespace RoomBooker.Infra.Data.Interface.Room
             return id;
         }
 
-        public async Task UpdateRoom(RoomInfo room)
+        public async Task UpdateRoom(int id, RoomInfo room)
         {
             var sql = "UPDATE Room SET Name = @Name, Capacity = @Capacity WHERE Id = @Id;";
-            await _context.Connection.ExecuteAsync(sql, new { Id = room.Id, Name = room.Name, Capacity = room.Capacity });
+            await _context.Connection.ExecuteAsync(sql, new { Id = id, Name = room.Name, Capacity = room.Capacity });
         }
 
         public async Task<List<RoomInfo>> SelectRoom(RoomRequest request)
@@ -33,6 +32,11 @@ namespace RoomBooker.Infra.Data.Interface.Room
             var sql = "SELECT Id, Name, Capacity FROM Room WHERE Name LIKE @Name AND Capacity = @Capacity;";
             var rooms = await _context.Connection.QueryAsync<RoomInfo>(sql, new { Name = $"%{request.Name}%", Capacity = request.Capacity });
             return rooms.ToList();
+        }
+        public async Task DeleteRoom(int id)
+        {
+            var sql = "DELETE FROM Room WHERE Id = @Id;";
+            await _context.Connection.ExecuteAsync(sql, new { Id = id });
         }
     }
 }
