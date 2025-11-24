@@ -12,4 +12,9 @@
     <PackageReference Include="MySql.Data" Version="9.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RoomBooker.Domain\RoomBooker.Domain.csproj" />
+  </ItemGroup>
+
+
 </Project>
