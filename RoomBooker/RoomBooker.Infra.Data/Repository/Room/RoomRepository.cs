@@ -28,6 +28,11 @@ namespace RoomBooker.Infra.Data.Interface.Room
             await _context.Connection.ExecuteAsync(sql, new { Id = room.Id, Name = room.Name, Capacity = room.Capacity });
         }
 
-   
+        public async Task<List<RoomInfo>> SelectRoom(RoomRequest request)
+        {
+            var sql = "SELECT Id, Name, Capacity FROM Room WHERE Name LIKE @Name AND Capacity = @Capacity;";
+            var rooms = await _context.Connection.QueryAsync<RoomInfo>(sql, new { Name = $"%{request.Name}%", Capacity = request.Capacity });
+            return rooms.ToList();
+        }
     }
 }
