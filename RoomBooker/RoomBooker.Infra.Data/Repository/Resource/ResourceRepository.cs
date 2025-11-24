@@ -16,12 +16,13 @@ namespace RoomBooker.Infra.Data.Repository.Resource
         }
         public async Task<int> CreateResource(ResourceInfo resource)
         {
-            var sql = "INSERT INTO Resources (Name) VALUES (@Name)";
+            var sql = "INSERT INTO Resources (Name) VALUES (@Name) RETURNING Id;";
 
-            return await _context.Connection.ExecuteAsync(sql, new
+            var id = await _context.Connection.ExecuteScalarAsync<int>(sql, new
             {
                 Name = resource.Name
             });
+            return id;
         }
 
         public async Task UpdateResource(int id, ResourceInfo resource)
