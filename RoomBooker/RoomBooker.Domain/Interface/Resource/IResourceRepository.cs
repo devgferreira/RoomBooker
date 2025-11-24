@@ -3,7 +3,7 @@ using RoomBooker.Domain.Entity.Resource.Request;
 
 namespace RoomBooker.Domain.Interface.Resource
 {
-    public interface IResourceRepositaory
+    public interface IResourceRepository
     {
         Task<int> CreateResource(ResourceInfo resource);
         Task UpdateResource(int id, ResourceInfo resource);
