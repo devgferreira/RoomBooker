@@ -8,6 +8,5 @@ namespace RoomBooker.Domain.Entity.Booking
         public DateTime InitialDate { get; set; }
         public DateTime FinalDate { get; set; }
         public DateTime Day { get; set; }
-
     }
 }
