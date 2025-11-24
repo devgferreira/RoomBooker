@@ -2,7 +2,7 @@ using RoomBooker.Domain.Entity.RoomResource;
 using RoomBooker.Domain.Entity.RoomResource.Request;
 
 
-namespace RoomBooker.Domain.Repository.RoomResource
+namespace RoomBooker.Domain.Interface.RoomResource
 {
     public interface IRoomResourceRepository
     {

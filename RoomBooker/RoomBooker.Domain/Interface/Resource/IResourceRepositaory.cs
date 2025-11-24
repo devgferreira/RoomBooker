@@ -1,7 +1,7 @@
 using RoomBooker.Domain.Entity.Resource;
 using RoomBooker.Domain.Entity.Resource.Request;
 
-namespace RoomBooker.Domain.Repository.Resource
+namespace RoomBooker.Domain.Interface.Resource
 {
     public interface IResourceRepositaory
     {
