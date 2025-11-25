@@ -7,8 +7,8 @@ namespace RoomBooker.Application.Interface.RoomResource
     public interface IRoomResourceService
     {
         Task CreateRoomResourceAsync(RoomResourceCreateOrUpdateDTO roomResourceDto);
-        Task UpdateRoomResourceAsync(int id, RoomResourceDTO roomResourceDto);
+        Task UpdateRoomResourceAsync(int id, RoomResourceCreateOrUpdateDTO roomResourceDto);
         Task DeleteRoomResourceAsync(int id);
-        Task SelectRoomResourceAsync(RoomResourceRequest request);
+        Task<List<RoomResourceDTO>> SelectRoomResourceAsync(RoomResourceRequest request);
     }
 }
