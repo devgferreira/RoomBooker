@@ -5,12 +5,14 @@ namespace RoomBooker.Application.DTO.RoomResource
         public int Id { get; set; }
         public int RoomId { get; set; }
         public int ResourceId { get; set; }
-
-        public RoomResourceDTO(int id, int roomId, int resourceId)
+        public int Quantity { get; set; }
+        public RoomResourceDTO(int id, int roomId, int resourceId, int quantity)
         {
             Id = id;
             RoomId = roomId;
             ResourceId = resourceId;
+            Quantity = quantity;
         }
+
     }
 }

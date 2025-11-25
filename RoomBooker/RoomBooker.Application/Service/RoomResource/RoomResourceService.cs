@@ -18,7 +18,8 @@ namespace RoomBooker.Application.Service.RoomResource
         public async Task CreateRoomResourceAsync(RoomResourceCreateOrUpdateDTO roomResourceCreateOrUpdateDTO)
         {
             ValidateRoomResource(roomResourceCreateOrUpdateDTO);
-            var roomResource = new RoomResourceInfo(roomResourceCreateOrUpdateDTO.RoomId, roomResourceCreateOrUpdateDTO.ResourceId);
+            var roomResource = new RoomResourceInfo(roomResourceCreateOrUpdateDTO.RoomId, roomResourceCreateOrUpdateDTO.ResourceId,
+                roomResourceCreateOrUpdateDTO.Quantity);
             await _roomResourceRepository.CreateRoomResource(roomResource);
         }
 
@@ -26,7 +27,8 @@ namespace RoomBooker.Application.Service.RoomResource
         {
             ValidateRoomResource(roomResourceCreateOrUpdateDTO);
             await ValidateRoomResourceExists(id);
-            var roomResource = new RoomResourceInfo(roomResourceCreateOrUpdateDTO.RoomId, roomResourceCreateOrUpdateDTO.ResourceId);
+            var roomResource = new RoomResourceInfo(roomResourceCreateOrUpdateDTO.RoomId, roomResourceCreateOrUpdateDTO.ResourceId,
+                roomResourceCreateOrUpdateDTO.Quantity);
             await _roomResourceRepository.UpdateRoomResource(id, roomResource);
         }
 
@@ -39,7 +41,7 @@ namespace RoomBooker.Application.Service.RoomResource
         public async Task<List<RoomResourceDTO>> SelectRoomResourceAsync(RoomResourceRequest request)
         {
             var roomResources = await _roomResourceRepository.SelectRoomResource(request);
-            return roomResources.Select(r => new RoomResourceDTO(r.Id, r.RoomId, r.ResourceId)).ToList();
+            return roomResources.Select(r => new RoomResourceDTO(r.Id, r.RoomId, r.ResourceId, r.Quantity)).ToList();
         }
 
         private void ValidateRoomResource(RoomResourceCreateOrUpdateDTO roomResource)
@@ -52,6 +54,9 @@ namespace RoomBooker.Application.Service.RoomResource
 
             if (roomResource.ResourceId <= 0)
                 throw new ArgumentException("Resource ID must be greater than zero.", nameof(roomResource.ResourceId));
+
+            if (roomResource.Quantity <= 0)
+                throw new ArgumentException("Quantity must be greater than zero.", nameof(roomResource.Quantity));
         }
 
         private async Task ValidateRoomResourceExists(int id)

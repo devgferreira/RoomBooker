@@ -17,7 +17,7 @@ namespace RoomBooker.Infra.Data.Repository.RoomResource
 
         public async Task<int> CreateRoomResource(RoomResourceInfo roomResource)
         {
-            var sql = "INSERT INTO RoomResources (RoomId, ResourceId) VALUES (@RoomId, @ResourceId) RETURNING Id;";
+            var sql = "INSERT INTO RoomResources (RoomId, ResourceId, Quantity) VALUES (@RoomId, @ResourceId, @Quantity) RETURNING Id;";
 
             var id = await _context.Connection.ExecuteScalarAsync<int>(sql, new
             {
@@ -30,13 +30,14 @@ namespace RoomBooker.Infra.Data.Repository.RoomResource
 
         public async Task UpdateRoomResource(int id, RoomResourceInfo roomResource)
         {
-            var sql = "UPDATE RoomResources SET RoomId = @RoomId, ResourceId = @ResourceId WHERE Id = @Id;";
+            var sql = "UPDATE RoomResources SET RoomId = @RoomId, ResourceId = @ResourceId, Quantity = @Quantity WHERE Id = @Id;";
 
             await _context.Connection.ExecuteAsync(sql, new
             {
                 Id = id,
                 RoomId = roomResource.RoomId,
-                ResourceId = roomResource.ResourceId
+                ResourceId = roomResource.ResourceId,
+                Quantity = roomResource.Quantity
             });
         }
 
@@ -49,7 +50,7 @@ namespace RoomBooker.Infra.Data.Repository.RoomResource
 
         public async Task<List<RoomResourceInfo>> SelectRoomResource(RoomResourceRequest request)
         {
-            var sql = "SELECT Id, RoomId, ResourceId FROM RoomResources WHERE 1 = 1 ";
+            var sql = "SELECT Id, RoomId, ResourceId, Quantity FROM RoomResources WHERE 1 = 1 ";
 
             if (request.RoomId.HasValue)
             {
