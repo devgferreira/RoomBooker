@@ -34,7 +34,7 @@ namespace RoomBooker.API.Controller.Resource
             return Ok();
         }
         [HttpGet]
-        public async Task<IActionResult> GetResource(ResourceRequest request)
+        public async Task<IActionResult> GetResource([FromQuery]ResourceRequest request)
         {
             var resources = await _resourceService.SelectResourceAsync(request);
             return Ok(resources);

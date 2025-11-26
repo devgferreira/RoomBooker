@@ -16,7 +16,7 @@ namespace RoomBooker.Infra.Data.Repository.Resource
         }
         public async Task<int> CreateResource(ResourceInfo resource)
         {
-            var sql = "INSERT INTO Resources (Name) VALUES (@Name) RETURNING Id;";
+            var sql = "INSERT INTO Resource (Name) VALUES (@Name) RETURNING Id;";
 
             var id = await _context.Connection.ExecuteScalarAsync<int>(sql, new
             {
@@ -27,7 +27,7 @@ namespace RoomBooker.Infra.Data.Repository.Resource
 
         public async Task UpdateResource(int id, ResourceInfo resource)
         {
-            var sql = "UPDATE Resources SET Name = @Name WHERE Id = @Id";
+            var sql = "UPDATE Resource SET Name = @Name WHERE Id = @Id";
 
             await _context.Connection.ExecuteAsync(sql, new
             {
@@ -38,7 +38,7 @@ namespace RoomBooker.Infra.Data.Repository.Resource
 
         public async Task DeleteResource(int id)
         {
-            var sql = "DELETE FROM Resources WHERE Id = @Id";
+            var sql = "DELETE FROM Resource WHERE Id = @Id";
 
             await _context.Connection.ExecuteAsync(sql, new
             {
@@ -48,7 +48,7 @@ namespace RoomBooker.Infra.Data.Repository.Resource
 
         public async Task<List<ResourceInfo>> SelectResource(ResourceRequest request)
         {
-            var sql = "SELECT Id, Name FROM Resources WHERE 1 = 1";
+            var sql = "SELECT Id, Name FROM Resource WHERE 1 = 1";
 
             if (request.Id != null)
             {
