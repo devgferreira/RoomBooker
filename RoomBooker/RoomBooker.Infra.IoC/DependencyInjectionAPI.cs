@@ -17,6 +17,7 @@ using RoomBooker.Application.Interface.Booking;
 using RoomBooker.Application.Service.Booking;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RoomBooker.Application.Setting;
 
 namespace RoomBooker.Infra.IoC
 {
@@ -34,6 +35,13 @@ namespace RoomBooker.Infra.IoC
             services.AddScoped<IResourceService, ResourceService>();
             services.AddScoped<IRoomResourceService, RoomResourceService>();
             services.AddScoped<IBookingService, BookingService>();
+
+            var appSettings = new ApplicationSettings
+            {
+                ConnectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING")
+            };
+
+            services.AddSingleton<IApplicationSettings>(appSettings);
 
             return services;
         }

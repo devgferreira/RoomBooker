@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Configuration;
-using MySql.Data.MySqlClient;
+using Npgsql;
 using System.Data;
 
 namespace RoomBooker.Infra.Data.Context
@@ -12,7 +12,7 @@ namespace RoomBooker.Infra.Data.Context
             var connStr = Environment.GetEnvironmentVariable("CONNECTION_STRING")
                   ?? configuration.GetConnectionString("DefaultConnection");
 
-            Connection = new MySqlConnection(connStr);
+            Connection = new NpgsqlConnection(connStr);
             Connection.Open();
         }
         public void Dispose() => Connection?.Dispose();
