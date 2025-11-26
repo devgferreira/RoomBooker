@@ -17,12 +17,13 @@ namespace RoomBooker.Infra.Data.Repository.RoomResource
 
         public async Task<int> CreateRoomResource(RoomResourceInfo roomResource)
         {
-            var sql = "INSERT INTO RoomResources (RoomId, ResourceId, Quantity) VALUES (@RoomId, @ResourceId, @Quantity) RETURNING Id;";
+            var sql = "INSERT INTO room_resource (room_id, resource_id, quantity) VALUES (@RoomId, @ResourceId, @Quantity) RETURNING Id;";
 
             var id = await _context.Connection.ExecuteScalarAsync<int>(sql, new
             {
                 RoomId = roomResource.RoomId,
-                ResourceId = roomResource.ResourceId
+                ResourceId = roomResource.ResourceId,
+                Quantity = roomResource.Quantity
             });
 
             return id;
@@ -30,7 +31,7 @@ namespace RoomBooker.Infra.Data.Repository.RoomResource
 
         public async Task UpdateRoomResource(int id, RoomResourceInfo roomResource)
         {
-            var sql = "UPDATE RoomResources SET RoomId = @RoomId, ResourceId = @ResourceId, Quantity = @Quantity WHERE Id = @Id;";
+            var sql = "UPDATE room_resource SET room_id = @RoomId, resource_id = @ResourceId, quantity = @Quantity WHERE Id = @Id;";
 
             await _context.Connection.ExecuteAsync(sql, new
             {
@@ -43,22 +44,22 @@ namespace RoomBooker.Infra.Data.Repository.RoomResource
 
         public async Task DeleteRoomResource(int id)
         {
-            var sql = "DELETE FROM RoomResources WHERE Id = @Id;";
+            var sql = "DELETE FROM room_resource WHERE Id = @Id;";
 
             await _context.Connection.ExecuteAsync(sql, new { Id = id });
         }
 
         public async Task<List<RoomResourceInfo>> SelectRoomResource(RoomResourceRequest request)
         {
-            var sql = "SELECT Id, RoomId, ResourceId, Quantity FROM RoomResources WHERE 1 = 1 ";
+            var sql = "SELECT Id, room_id as RoomId, resource_id as ResourceId, quantity FROM room_resource WHERE 1 = 1 ";
 
             if (request.RoomId.HasValue)
             {
-                sql += "AND RoomId = @RoomId ";
+                sql += "AND room_id = @RoomId ";
             }
             if (request.ResourceId.HasValue)
             {
-                sql += "AND ResourceId = @ResourceId ";
+                sql += "AND resource_id = @ResourceId ";
             }
             if (request.Id.HasValue)
             {
