@@ -3,7 +3,7 @@ using RoomBooker.Infra.Data.Context;
 using RoomBooker.Domain.Entity.Room;
 using RoomBooker.Domain.Entity.Room.Request;
 using Dapper;
-namespace RoomBooker.Infra.Data.Interface.Room
+namespace RoomBooker.Infra.Data.Repository.Room
 {
     public class RoomRepository : IRoomRepository
     {
