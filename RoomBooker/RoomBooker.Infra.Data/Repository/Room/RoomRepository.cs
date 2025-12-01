@@ -1,8 +1,9 @@
-using RoomBooker.Domain.Interface.Room;
-using RoomBooker.Infra.Data.Context;
+using Dapper;
 using RoomBooker.Domain.Entity.Room;
 using RoomBooker.Domain.Entity.Room.Request;
-using Dapper;
+using RoomBooker.Domain.Entity.Room.Response;
+using RoomBooker.Domain.Interface.Room;
+using RoomBooker.Infra.Data.Context;
 namespace RoomBooker.Infra.Data.Repository.Room
 {
     public class RoomRepository : IRoomRepository
@@ -43,6 +44,39 @@ namespace RoomBooker.Infra.Data.Repository.Room
                 sql += " AND Capacity = @Capacity";
             }
             var rooms = await _context.Connection.QueryAsync<RoomInfo>(sql, new
+            {
+                Name = $"%{request.Name}%",
+                Capacity = request.Capacity,
+                Id = request.Id
+            });
+            return rooms.ToList();
+        }
+        public async Task<List<RoomWithResourceResponse>> SelectRoomWithResource(RoomRequest request)
+        {
+            var sql = "SELECT 	r.ID as Id, " +
+		                  "  r.Name as Name, " +
+		                  "  R.Capacity as Capacity, " +
+		                  "  re.Id as Id, " +
+		                  "  re.Name as Name, " +
+		                  "  rr.Quantity as Quantity " +
+                    "FROM Room as r" +
+                    "INNER JOIN room_resource rr ON r.id = rr.room_id " +
+                    "INNER JOIN resource re ON rr.resource_id = re.id " +
+                    "WHERE 1 = 1 "
+                    		;
+            if (request.Id != null)
+            {
+                sql += " r.AND Id = @Id";
+            }
+            if (request.Name != null)
+            {
+                sql += " r.AND Name LIKE @Name";
+            }
+            if (request.Capacity != null)
+            {
+                sql += " AND r.Capacity = @Capacity";
+            }
+            var rooms = await _context.Connection.QueryAsync<RoomWithResourceResponse>(sql, new
             {
                 Name = $"%{request.Name}%",
                 Capacity = request.Capacity,
