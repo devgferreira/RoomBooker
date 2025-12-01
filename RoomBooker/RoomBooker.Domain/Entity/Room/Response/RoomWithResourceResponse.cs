@@ -14,7 +14,7 @@ namespace RoomBooker.Domain.Entity.Room.Response
         public int RoomCapacity { get; set; }
         public int ResourceId { get; set; }
         public string ResourceName { get; set; }
-        public int ResourceCapacity { get; set; }
+        public int ResourceQuantity { get; set; }
 
     }
 }

@@ -53,24 +53,24 @@ namespace RoomBooker.Infra.Data.Repository.Room
         }
         public async Task<List<RoomWithResourceResponse>> SelectRoomWithResource(RoomRequest request)
         {
-            var sql = "SELECT 	r.ID as Id, " +
-		                  "  r.Name as Name, " +
-		                  "  R.Capacity as Capacity, " +
-		                  "  re.Id as Id, " +
-		                  "  re.Name as Name, " +
-		                  "  rr.Quantity as Quantity " +
-                    "FROM Room as r" +
+            var sql = "SELECT 	r.ID as RoomId, " +
+		                  "  r.Name as RoomName, " +
+		                  "  r.Capacity as RoomCapacity, " +
+		                  "  re.Id as ResourceId, " +
+                          "  re.Name as ResourceName, " +
+                          "  rr.Quantity as ResourceQuantity " +
+                    "FROM Room r " +
                     "INNER JOIN room_resource rr ON r.id = rr.room_id " +
                     "INNER JOIN resource re ON rr.resource_id = re.id " +
                     "WHERE 1 = 1 "
                     		;
             if (request.Id != null)
             {
-                sql += " r.AND Id = @Id";
+                sql += "  AND r.Id = @Id";
             }
             if (request.Name != null)
             {
-                sql += " r.AND Name LIKE @Name";
+                sql += "  AND r.Name LIKE @Name";
             }
             if (request.Capacity != null)
             {
