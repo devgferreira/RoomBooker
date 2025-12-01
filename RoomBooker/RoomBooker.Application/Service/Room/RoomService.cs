@@ -3,6 +3,7 @@ using RoomBooker.Domain.Entity.Room;
 using RoomBooker.Domain.Entity.Room.Request;
 using RoomBooker.Application.DTO.Room;
 using RoomBooker.Domain.Interface.Room;
+using RoomBooker.Application.DTO.Resource;
 
 namespace RoomBooker.Application.Service.Room
 {
@@ -37,8 +38,15 @@ namespace RoomBooker.Application.Service.Room
 
         public async Task<List<RoomDTO>> SelectRoomAsync(RoomRequest request)
         {
-            var rooms = await _roomRepository.SelectRoom(request);
-            return rooms.Select(room => new RoomDTO(room.Id, room.Name, room.Capacity)).ToList();
+            var rooms = await _roomRepository.SelectRoomWithResource(request);
+            return rooms.
+                GroupBy(r => new { r.RoomId, r.RoomName, r.RoomCapacity }).
+                Select(room => new RoomDTO(
+                room.Key.RoomId,
+                room.Key.RoomName,
+                room.Key.RoomCapacity,
+                room.Select(r => new RoomWithResourceDTO(r.ResourceId, r.ResourceName, r.ResourceQuantity)).ToList()
+            )).ToList();
         }
 
         private void ValidateRoom(RoomCreateOrUpdateDTO room)
