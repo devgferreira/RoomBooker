@@ -123,7 +123,7 @@ namespace RoomBooker.Infra.Data.Repository.Booking
             {
                 sql += " AND b.Room_Id = @RoomId ";
             }
-            if (request.InitialDate != null && request.FinalDate != null)
+            if (request.InitialDate != null)
             {
                 sql += " AND b.Initial_Date >= @InitialDate ";
             }

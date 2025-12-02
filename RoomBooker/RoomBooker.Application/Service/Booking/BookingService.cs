@@ -65,10 +65,10 @@ namespace RoomBooker.Application.Service.Booking
 
         private async Task CheckRoomAvailability(BookingCreateDTO booking)
         {
-            var existingBookings = await _bookingRepository.SelectBooking(new BookingRequest { RoomId = booking.RoomId });
+            var existingBookings = await _bookingRepository.SelectBooking(new BookingRequest { RoomId = booking.RoomId, Day = booking.Day });
             foreach (var existingBooking in existingBookings)
             {
-                if (booking.InitialDate >= existingBooking.InitialDate && booking.InitialDate <= existingBooking.FinalDate)
+                if (booking.InitialDate >= existingBooking.InitialDate || booking.FinalDate <= existingBooking.FinalDate)
                     throw new ArgumentException("Room is already booked during this period");
             }
         }
