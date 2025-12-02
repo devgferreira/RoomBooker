@@ -17,5 +17,19 @@ namespace RoomBooker.Domain.Entity.Booking
             FinalDate = finalDate;
             Day = day;
         }
+
+        public BookingInfo(int id, int userId, int roomId, DateTime initialDate, DateTime finalDate, DateTime day)
+        {
+            Id = id;
+            UserId = userId;
+            RoomId = roomId;
+            InitialDate = initialDate;
+            FinalDate = finalDate;
+            Day = day;
+        }
+
+        public BookingInfo()
+        {
+        }
     }
 }
