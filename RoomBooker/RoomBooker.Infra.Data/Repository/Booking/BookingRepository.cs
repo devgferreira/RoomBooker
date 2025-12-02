@@ -19,7 +19,7 @@ namespace RoomBooker.Infra.Data.Repository.Booking
 
         public async Task<int> CreateBooking(BookingInfo booking)
         {
-            var sql = "INSERT INTO Booking (RoomId, InitialDate, FinalDate, UserId, Day) VALUES (@RoomId, @InitialDate, @FinalDate, @UserId, @Day)";
+            var sql = "INSERT INTO Booking (Room_Id, Initial_Date, Final_Date, User_Id, Day) VALUES (@RoomId, @InitialDate, @FinalDate, @UserId, @Day)";
             var id = await _context.Connection.ExecuteScalarAsync<int>(sql,
                 new
                 {
@@ -55,10 +55,10 @@ namespace RoomBooker.Infra.Data.Repository.Booking
 
         public async Task<List<BookingInfo>> SelectBooking(BookingRequest request)
         {
-            var sql = "SELECT * FROM Booking WHERE 1 = 1 "; // ajustar o * com os campos certos
+            var sql = "SELECT id, user_id as UserId, room_id as RoomId, initial_date as InitialDate, final_date as FinalDate, Day FROM Booking WHERE 1 = 1 "; // ajustar o * com os campos certos
             if (request.RoomId != null)
             {
-                sql += "AND RoomId = @RoomId ";
+                sql += "AND Room_Id = @RoomId ";
             }
             if (request.UserId != null)
             {
@@ -66,11 +66,11 @@ namespace RoomBooker.Infra.Data.Repository.Booking
             }
             if (request.InitialDate != null && request.FinalDate != null)
             {
-                sql += "AND InitialDate >= @InitialDate ";
+                sql += "AND Initial_Date >= @InitialDate ";
             }
             if (request.FinalDate != null)
             {
-                sql += "AND FinalDate <= @FinalDate ";
+                sql += "AND Final_Date <= @FinalDate ";
             }
             if (request.Id != null)
             {
