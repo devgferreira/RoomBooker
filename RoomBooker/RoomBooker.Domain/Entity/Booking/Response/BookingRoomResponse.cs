@@ -7,6 +7,9 @@ namespace RoomBooker.Domain.Entity.Booking.Response
         public int RoomId { get; set; }
         public string RoomName { get; set; }
         public string RoomCapacity { get; set; }
+        public int ResourceId { get; set; }
+        public string ResourceName { get; set; }
+        public int ResourceRoomQuantity { get; set; }
         public DateTime InitialDate { get; set; }
         public DateTime FinalDate { get; set; }
         public DateTime Day { get; set; }
