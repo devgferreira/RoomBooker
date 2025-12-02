@@ -35,5 +35,11 @@ namespace RoomBooker.API.Controller.Booking
                 Data = result
             });
         }
+        [HttpDelete]
+        public async Task<IActionResult> DeleteBooking([FromQuery] int id)
+        {
+            await _bookingService.DeleteBookingAsync(id);
+            return Ok();
+        }
     }
 }
