@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Http;
+using RoomBooker.Application.DTO.Resource;
 using RoomBooker.Application.Interface.Resource;
 using RoomBooker.Domain.Entity.Resource;
 using RoomBooker.Domain.Entity.Resource.Request;
-using RoomBooker.Application.DTO.Resource;
+using RoomBooker.Domain.Exceptions;
 using RoomBooker.Domain.Interface.Resource;
 
 
@@ -42,7 +44,7 @@ namespace RoomBooker.Application.Service.Resource
         {
             if (string.IsNullOrEmpty(request.Name))
             {
-                throw new ArgumentException("Resource name cannot be empty");
+                throw new GenericException(new ExceptionResponse(StatusCodes.Status400BadRequest, "Resource name cannot be empty"));
             }
         }
         private async Task ValidateResourceExists(int id)
@@ -50,7 +52,8 @@ namespace RoomBooker.Application.Service.Resource
             var resource = await _resourceRepository.SelectResource(new ResourceRequest { Id = id });
             if (resource == null)
             {
-                throw new ArgumentException("Resource does not exist");
+                throw new GenericException(new ExceptionResponse(StatusCodes.Status404NotFound, "Resource does not exist"));
+
             }
         }
     }
