@@ -1,10 +1,12 @@
+using Microsoft.AspNetCore.Http;
+using RoomBooker.Application.DTO.Booking;
+using RoomBooker.Application.DTO.Room;
 using RoomBooker.Application.Interface.Booking;
 using RoomBooker.Domain.Entity.Booking;
 using RoomBooker.Domain.Entity.Booking.Request;
-using RoomBooker.Application.DTO.Booking;
+using RoomBooker.Domain.Exceptions;
 using RoomBooker.Domain.Interface.Booking;
 using System.Linq.Expressions;
-using RoomBooker.Application.DTO.Room;
 
 
 namespace RoomBooker.Application.Service.Booking
@@ -55,14 +57,19 @@ namespace RoomBooker.Application.Service.Booking
         private void ValidateBooking(BookingCreateDTO booking)
         {
             if (booking.InitialDate > booking.FinalDate)
-                throw new ArgumentException("Initial date must be before final date");
+                throw new GenericException(new ExceptionResponse(StatusCodes.Status400BadRequest, "Initial date must be before final date"));
+            if(booking.UserId <= 0 )
+                throw new GenericException(new ExceptionResponse(StatusCodes.Status400BadRequest, "User Id must be greater than zero."));
+            if (booking.RoomId <= 0)
+                throw new GenericException(new ExceptionResponse(StatusCodes.Status400BadRequest, "Room Id must be greater than zero."));
         }
 
         private async Task ValidateBookingExists(int bookingId)
         {
             var booking = await _bookingRepository.SelectBooking(new BookingRequest { Id = bookingId });
             if (booking == null)
-                throw new ArgumentException("Booking not found");
+                throw new GenericException(new ExceptionResponse(StatusCodes.Status404NotFound, "Booking not found"));
+
         }
 
         private async Task CheckRoomAvailability(BookingCreateDTO booking)
@@ -71,7 +78,8 @@ namespace RoomBooker.Application.Service.Booking
             foreach (var existingBooking in existingBookings)
             {
                 if (booking.InitialDate >= existingBooking.InitialDate || booking.FinalDate <= existingBooking.FinalDate)
-                    throw new ArgumentException("Room is already booked during this period");
+                    throw new GenericException(new ExceptionResponse(StatusCodes.Status400BadRequest, "Room is already booked during this period"));
+
             }
         }
     }
