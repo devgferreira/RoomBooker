@@ -50,6 +50,8 @@ namespace RoomBooker.Application.Service.Booking
             )).ToList();
         }
 
+
+
         private void ValidateBooking(BookingCreateDTO booking)
         {
             if (booking.InitialDate > booking.FinalDate)

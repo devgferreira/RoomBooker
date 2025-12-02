@@ -1,9 +1,12 @@
 using DotNetEnv;
+using RoomBooker.API.Middlewares;
 using RoomBooker.Infra.IoC;
 
 Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
+
+
 
 // Add services to the container.
 builder.Services.AddInfrastructureAPI(builder.Configuration);
@@ -17,7 +20,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseSwagger();
 app.UseSwaggerUI();
-
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

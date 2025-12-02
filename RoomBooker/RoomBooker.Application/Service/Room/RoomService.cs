@@ -4,6 +4,8 @@ using RoomBooker.Domain.Entity.Room.Request;
 using RoomBooker.Application.DTO.Room;
 using RoomBooker.Domain.Interface.Room;
 using RoomBooker.Application.DTO.Resource;
+using RoomBooker.Domain.Exceptions;
+using Microsoft.AspNetCore.Http;
 
 namespace RoomBooker.Application.Service.Room
 {
@@ -52,17 +54,17 @@ namespace RoomBooker.Application.Service.Room
         private void ValidateRoom(RoomCreateOrUpdateDTO room)
         {
             if (string.IsNullOrEmpty(room.Name))
-                throw new ArgumentException("Room name cannot be empty.");
+                throw new GenericException(new ExceptionResponse(StatusCodes.Status400BadRequest, "Room name field is required"));
 
             if (room.Capacity <= 0)
-                throw new ArgumentException("Room capacity must be greater than zero.");
+                throw new GenericException(new ExceptionResponse(StatusCodes.Status400BadRequest, "Room capacity must be greater than zero."));
         }
 
         private async Task ValidateRoomExists(int id)
         {
             var room = await _roomRepository.SelectRoom(new RoomRequest { Id = id });
             if (room == null)
-                throw new ArgumentException("Room does not exist.");
+                throw new GenericException(new ExceptionResponse(StatusCodes.Status404NotFound, "Room does not exist."));
         }
     }
 }
