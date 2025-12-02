@@ -95,31 +95,49 @@ namespace RoomBooker.Infra.Data.Repository.Booking
 
         public async Task<List<BookingRoomResponse>> SelectBookingRoom(BookingRequest request)
         {
-            var sql = "SELECT * FROM Booking WHERE 1 = 1 "; // ajustar o * com os campos certos
+            var sql = @"
+                            SELECT 	b.ID as BookingId,	
+		                            1 as UserId, 
+		                            r.Id as RoomId,
+		                            r.Name as RoomName,
+		                            r.Capacity as RoomCapacity,
+		                            re.Id as ResourceId,
+		                            re.Name as ResourceName,
+		                            rr.Quantity as ResourceRoomQuantity,
+		                            b.initial_date as InitialDate,
+		                            b.final_date as FinalDate,
+		                            b.Day as Day
+                            FROM booking b
+                            INNER JOIN room r ON b.room_id = r.id
+                            INNER JOIN room_resource rr ON r.id = rr.room_id
+                            INNER JOIN resource re ON rr.resource_id = re.id
+                            WHERE 1 = 1
+                            "; // ajustar o id do usuario
+
 
             if (request.UserId != null)
             {
-                sql += "AND UserId = @UserId ";
+                sql += " AND User_Id = @UserId ";
             }
             if (request.RoomId != null)
             {
-                sql += "AND RoomId = @RoomId ";
+                sql += " AND b.Room_Id = @RoomId ";
             }
             if (request.InitialDate != null && request.FinalDate != null)
             {
-                sql += "AND InitialDate >= @InitialDate ";
+                sql += " AND b.Initial_Date >= @InitialDate ";
             }
             if (request.FinalDate != null)
             {
-                sql += "AND FinalDate <= @FinalDate ";
+                sql += " AND b.Final_Date <= @FinalDate ";
             }
             if (request.Id != null)
             {
-                sql += "AND Id = @Id ";
+                sql += " AND b.Id = @Id ";
             }
             if (request.Day != null)
             {
-                sql += "AND Day = @Day ";
+                sql += " AND b.Day = @Day ";
             }
             var bookings = await _context.Connection.QueryAsync<BookingRoomResponse>(sql,
                 new
