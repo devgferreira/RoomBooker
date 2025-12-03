@@ -24,7 +24,7 @@ namespace RoomBooker.Application.Service.Booking
         public async Task CreateBookingAsync(BookingCreateDTO request)
         {
             ValidateBooking(request);
-            await CheckRoomAvailability(request);
+            await CheckRoomAvailability(request.RoomId, request.Day, request.InitialDate, request.FinalDate);
             var booking = new BookingInfo(request.RoomId, request.UserId, request.InitialDate, request.FinalDate, request.Day);
             await _bookingRepository.CreateBooking(booking);
         }
@@ -53,6 +53,24 @@ namespace RoomBooker.Application.Service.Booking
         }
 
 
+        public async Task UpdateBooking(int id, BookingUpdateDTO bookingUpdateDTO)
+        {
+
+            await ValidateBookingExists(id);
+            var result = await _bookingRepository.SelectBooking(new BookingRequest { Id = id });
+            var booking = result.FirstOrDefault();
+            await CheckRoomAvailability(booking.RoomId, booking.Day, booking.InitialDate, booking.FinalDate, id);
+
+            booking.InitialDate = bookingUpdateDTO.InitialDate;
+            booking.FinalDate = bookingUpdateDTO.FinalDate;
+            booking.UserId = bookingUpdateDTO.UserId;
+
+            await _bookingRepository.UpdateBooking(id, booking);
+
+            throw new NotImplementedException();
+        }
+
+
 
         private void ValidateBooking(BookingCreateDTO booking)
         {
@@ -72,15 +90,20 @@ namespace RoomBooker.Application.Service.Booking
 
         }
 
-        private async Task CheckRoomAvailability(BookingCreateDTO booking)
+        private async Task CheckRoomAvailability(int roomId, DateTime day, DateTime initialDate, DateTime finalDate, int? excludeBookingId = null)
         {
-            var existingBookings = await _bookingRepository.SelectBooking(new BookingRequest { RoomId = booking.RoomId, Day = booking.Day });
+            var existingBookings = await _bookingRepository.SelectBooking(new BookingRequest { RoomId = roomId, Day = day });
             foreach (var existingBooking in existingBookings)
             {
-                if (booking.InitialDate >= existingBooking.InitialDate || booking.FinalDate <= existingBooking.FinalDate)
-                    throw new GenericException(new ExceptionResponse(StatusCodes.Status400BadRequest, "Room is already booked during this period"));
+                if (excludeBookingId.HasValue && existingBooking.Id == excludeBookingId.Value)
+                    continue;
 
+                if (!(finalDate <= existingBooking.InitialDate || initialDate >= existingBooking.FinalDate))
+                    throw new GenericException(new ExceptionResponse(StatusCodes.Status400BadRequest, "Room is already booked during this period"));
             }
         }
+
+
     }
 }
+

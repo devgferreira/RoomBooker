@@ -41,5 +41,11 @@ namespace RoomBooker.API.Controller.Booking
             await _bookingService.DeleteBookingAsync(id);
             return Ok();
         }
+        [HttpPut]
+        public async Task<IActionResult> UpdateBooking([FromQuery] int id, [FromBody] BookingUpdateDTO bookingUpdateDTO)
+        {
+            await _bookingService.UpdateBooking(id, bookingUpdateDTO);
+            return Ok();
+        }
     }
 }

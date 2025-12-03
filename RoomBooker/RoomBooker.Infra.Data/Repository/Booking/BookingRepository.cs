@@ -34,7 +34,7 @@ namespace RoomBooker.Infra.Data.Repository.Booking
 
         public async Task UpdateBooking(int id, BookingInfo booking)
         {
-            var sql = "UPDATE Booking SET RoomId = @RoomId, InitialDate = @InitialDate, FinalDate = @FinalDate, UserId = @UserId, Day = @Day WHERE Id = @Id";
+            var sql = "UPDATE Booking SET Room_Id = @RoomId, Initial_Date = @InitialDate, Final_Date = @FinalDate, User_Id = @UserId, Day = @Day WHERE Id = @Id";
             await _context.Connection.ExecuteAsync(sql,
                 new
                 {
