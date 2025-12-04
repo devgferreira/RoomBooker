@@ -20,7 +20,7 @@ Projetada com **arquitetura limpa (Clean Architecture)** e banco de dados **Post
 
 | Tecnologia        | Descrição |
 |------------------|---------|
-| **.NET 9**       | Plataforma principal para desenvolvimento da API e do worker. |
+| **.NET 9**       | Plataforma principal para desenvolvimento da API. |
 | **PostgreSQL**   | Banco de dados relacional recomendado (configurável para outros). |
 | **Swagger**      | Documentação interativa da API. |
 
