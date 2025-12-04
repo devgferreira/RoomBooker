@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Http;
+using RoomBooker.Application.DTO.RoomResource;
 using RoomBooker.Application.Interface.RoomResource;
 using RoomBooker.Domain.Entity.RoomResource;
 using RoomBooker.Domain.Entity.RoomResource.Request;
-using RoomBooker.Application.DTO.RoomResource;
+using RoomBooker.Domain.Exceptions;
 using RoomBooker.Domain.Interface.RoomResource;
 
 namespace RoomBooker.Application.Service.RoomResource
@@ -47,23 +49,24 @@ namespace RoomBooker.Application.Service.RoomResource
         private void ValidateRoomResource(RoomResourceCreateOrUpdateDTO roomResource)
         {
             if (roomResource == null)
-                throw new ArgumentNullException(nameof(roomResource));
+                throw new GenericException(new ExceptionResponse(StatusCodes.Status404NotFound, "All fields is required"));
 
             if (roomResource.RoomId <= 0)
-                throw new ArgumentException("Room ID must be greater than zero.", nameof(roomResource.RoomId));
+                throw new GenericException(new ExceptionResponse(StatusCodes.Status400BadRequest, "Room ID must be greater than zero."));
 
             if (roomResource.ResourceId <= 0)
-                throw new ArgumentException("Resource ID must be greater than zero.", nameof(roomResource.ResourceId));
+                throw new GenericException(new ExceptionResponse(StatusCodes.Status400BadRequest, "Resource ID must be greater than zero."));
 
             if (roomResource.Quantity <= 0)
-                throw new ArgumentException("Quantity must be greater than zero.", nameof(roomResource.Quantity));
+                throw new GenericException(new ExceptionResponse(StatusCodes.Status400BadRequest, "Quantity must be greater than zero."));
         }
 
         private async Task ValidateRoomResourceExists(int id)
         {
             var roomResource = await _roomResourceRepository.SelectRoomResource(new RoomResourceRequest { Id = id });
             if (roomResource == null)
-                throw new ArgumentException("Room resource does not exist.", nameof(id));
+                throw new GenericException(new ExceptionResponse(StatusCodes.Status404NotFound, "Room resource does not exist."));
+
         }
     }
 }

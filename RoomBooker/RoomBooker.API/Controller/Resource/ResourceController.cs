@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using RoomBooker.API.Models.Response;
 using RoomBooker.Application.DTO.Resource;
 using RoomBooker.Application.Interface.Resource;
 using RoomBooker.Domain.Entity.Resource.Request;
@@ -37,7 +38,11 @@ namespace RoomBooker.API.Controller.Resource
         public async Task<IActionResult> GetResource([FromQuery]ResourceRequest request)
         {
             var resources = await _resourceService.SelectResourceAsync(request);
-            return Ok(resources);
+            return Ok(new ApiResponse<ResourceDTO>
+            {
+                Success = true,
+                Data = resources
+            });
         }
     }
 }

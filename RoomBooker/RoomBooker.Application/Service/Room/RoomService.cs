@@ -3,6 +3,9 @@ using RoomBooker.Domain.Entity.Room;
 using RoomBooker.Domain.Entity.Room.Request;
 using RoomBooker.Application.DTO.Room;
 using RoomBooker.Domain.Interface.Room;
+using RoomBooker.Application.DTO.Resource;
+using RoomBooker.Domain.Exceptions;
+using Microsoft.AspNetCore.Http;
 
 namespace RoomBooker.Application.Service.Room
 {
@@ -37,24 +40,31 @@ namespace RoomBooker.Application.Service.Room
 
         public async Task<List<RoomDTO>> SelectRoomAsync(RoomRequest request)
         {
-            var rooms = await _roomRepository.SelectRoom(request);
-            return rooms.Select(room => new RoomDTO(room.Id, room.Name, room.Capacity)).ToList();
+            var rooms = await _roomRepository.SelectRoomWithResource(request);
+            return rooms.
+                GroupBy(r => new { r.RoomId, r.RoomName, r.RoomCapacity }).
+                Select(room => new RoomDTO(
+                room.Key.RoomId,
+                room.Key.RoomName,
+                room.Key.RoomCapacity,
+                room.Select(r => new RoomWithResourceDTO(r.ResourceId, r.ResourceName, r.ResourceQuantity)).ToList()
+            )).ToList();
         }
 
         private void ValidateRoom(RoomCreateOrUpdateDTO room)
         {
             if (string.IsNullOrEmpty(room.Name))
-                throw new ArgumentException("Room name cannot be empty.");
+                throw new GenericException(new ExceptionResponse(StatusCodes.Status400BadRequest, "Room name field is required"));
 
             if (room.Capacity <= 0)
-                throw new ArgumentException("Room capacity must be greater than zero.");
+                throw new GenericException(new ExceptionResponse(StatusCodes.Status400BadRequest, "Room capacity must be greater than zero."));
         }
 
         private async Task ValidateRoomExists(int id)
         {
             var room = await _roomRepository.SelectRoom(new RoomRequest { Id = id });
             if (room == null)
-                throw new ArgumentException("Room does not exist.");
+                throw new GenericException(new ExceptionResponse(StatusCodes.Status404NotFound, "Room does not exist."));
         }
     }
 }

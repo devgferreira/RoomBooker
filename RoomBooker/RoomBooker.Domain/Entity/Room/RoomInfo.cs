@@ -18,5 +18,9 @@ namespace RoomBooker.Domain.Entity.Room
             Name = name;
             Capacity = capacity;
         }
+
+        public RoomInfo()
+        {
+        }
     }
 }

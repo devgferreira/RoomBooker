@@ -8,5 +8,6 @@ namespace RoomBooker.Application.Interface.Booking
         Task CreateBookingAsync(BookingCreateDTO bookingCreateDTO);
         Task DeleteBookingAsync(int id);
         Task<List<BookingDTO>> SelectBookingAsync(BookingRequest request);
+        Task UpdateBooking(int id, BookingUpdateDTO bookingUpdateDTO);
     }
 }

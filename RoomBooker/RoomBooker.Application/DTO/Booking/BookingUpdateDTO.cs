@@ -1,14 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace RoomBooker.Application.DTO.Booking
 {
-    public class BookingCreateDTO
+    public class BookingUpdateDTO
     {
         public int UserId { get; set; }
-        public int RoomId { get; set; }
         public DateTime InitialDate { get; set; }
         public DateTime FinalDate { get; set; }
-        [JsonIgnore] 
-        public DateTime Day { get; set; } = DateTime.Now.Date; 
     }
 }

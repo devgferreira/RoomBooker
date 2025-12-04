@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31903.59
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11222.15 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoomBooker.API", "RoomBooker.API\RoomBooker.API.csproj", "{CCB1D77E-C900-4FE4-82A0-58CDF091422C}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoomBooker.Infra.Data", "RoomBooker.Infra.Data\RoomBooker.Infra.Data.csproj", "{2473051E-6526-442C-8184-6EAB0DA68EDD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoomBooker.Infra.IoC", "RoomBooker.Infra.IoC\RoomBooker.Infra.IoC.csproj", "{F3204658-F55B-4F49-A681-FCD7F2A1F23A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoomBooker.Exceptions", "RoomBooker.Exceptions\RoomBooker.Exceptions.csproj", "{58539D57-CD73-4B61-8B6A-9EBA01CF2D47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,8 +85,23 @@ Global
 		{F3204658-F55B-4F49-A681-FCD7F2A1F23A}.Release|x64.Build.0 = Release|Any CPU
 		{F3204658-F55B-4F49-A681-FCD7F2A1F23A}.Release|x86.ActiveCfg = Release|Any CPU
 		{F3204658-F55B-4F49-A681-FCD7F2A1F23A}.Release|x86.Build.0 = Release|Any CPU
+		{58539D57-CD73-4B61-8B6A-9EBA01CF2D47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58539D57-CD73-4B61-8B6A-9EBA01CF2D47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58539D57-CD73-4B61-8B6A-9EBA01CF2D47}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{58539D57-CD73-4B61-8B6A-9EBA01CF2D47}.Debug|x64.Build.0 = Debug|Any CPU
+		{58539D57-CD73-4B61-8B6A-9EBA01CF2D47}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{58539D57-CD73-4B61-8B6A-9EBA01CF2D47}.Debug|x86.Build.0 = Debug|Any CPU
+		{58539D57-CD73-4B61-8B6A-9EBA01CF2D47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58539D57-CD73-4B61-8B6A-9EBA01CF2D47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58539D57-CD73-4B61-8B6A-9EBA01CF2D47}.Release|x64.ActiveCfg = Release|Any CPU
+		{58539D57-CD73-4B61-8B6A-9EBA01CF2D47}.Release|x64.Build.0 = Release|Any CPU
+		{58539D57-CD73-4B61-8B6A-9EBA01CF2D47}.Release|x86.ActiveCfg = Release|Any CPU
+		{58539D57-CD73-4B61-8B6A-9EBA01CF2D47}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8BB0C2A7-B22D-428C-A653-01BE97EAEEFD}
 	EndGlobalSection
 EndGlobal
